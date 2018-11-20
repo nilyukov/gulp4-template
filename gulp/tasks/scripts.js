@@ -11,6 +11,9 @@ module.exports = function() {
     $.gulp.task('libsJS:build', () => {
         return $.gulp.src(['node_modules/svg4everybody/dist/svg4everybody.min.js'])
             .pipe($.gp.concat('libs.min.js'))
+            .pipe($.gp.babel({
+                presets: ['@babel/env']
+            }))
             .pipe($.gp.uglifyjs())
             .pipe($.gulp.dest('./build/static/js/'));
     });
@@ -18,6 +21,9 @@ module.exports = function() {
     $.gulp.task('js:copy', () => {
         return $.gulp.src(['./dev/static/js/*.js',
                            '!./dev/static/js/libs.min.js'])
+            .pipe($.gp.babel({
+                presets: ['@babel/env']
+            }))
             .pipe($.gulp.dest('./build/static/js/'))
             .pipe($.browserSync.reload({
                 stream: true
